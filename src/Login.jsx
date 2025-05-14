@@ -3,10 +3,12 @@ import React, { useContext } from 'react'
 import { ToastContainer } from 'react-toastify';
 import * as Yup from 'yup';
 import axios from 'axios';
-import { AuthContext } from './src/AuthContext';
+import { useNavigate } from 'react-router-dom';
+import { AuthContext } from './AuthContext';
 
 const Login = () => {
     const {login} = useContext(AuthContext)
+    const navigate = useNavigate()
 
     const loginUser = async (values) => {
       try {
@@ -14,7 +16,9 @@ const Login = () => {
 
         const token = response.data.token
         const user = response.data.user
+        console.log(token)
         login(user,token)
+        navigate('/')
 
       }catch(error) {
         console.log(error)
@@ -27,10 +31,10 @@ const Login = () => {
             validationSchema={Yup.object({
             //   name: Yup.string().min(3, 'Minimum 3 characters').required('Name is required.'),
               email: Yup.string().email('Invalid email address').required('Email is required.'),
-              password: Yup.string().min(8, 'Minimum 8 characters').max(30, 'Maximum 30 characters').required('Password is required.'),
+              password: Yup.string().min(6, 'Minimum 6 characters').max(30, 'Maximum 30 characters').required('Password is required.'),
             })}
             onSubmit={(values) => {
-              console.log(values)
+              loginUser(values)
             }}
           >
             <Form className='flex flex-col justify-center items-center w-full max-w-md mx-auto p-4'>

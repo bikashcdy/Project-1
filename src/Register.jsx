@@ -9,7 +9,7 @@ const Register = () => {
   const postFormData = async (values) => {
     try {
       const response = await axios.post(
-        'https://blog-hqx2.onrender.com/user/register',
+        'https://blog-hqx2.onrender.com/user/register', 
         values
       );
       toast.success('User registered successfully');
@@ -28,7 +28,9 @@ const Register = () => {
           email: Yup.string().email('Invalid email address').required('Email is required.'),
           password: Yup.string().min(8, 'Minimum 8 characters').max(30, 'Maximum 30 characters').required('Password is required.'),
         })}
-        onSubmit={postFormData}
+        onSubmit={(value)=>{
+          postFormData(value)
+        }}
       >
         <Form className='flex flex-col justify-center items-center w-full max-w-md mx-auto p-4'>
           <label htmlFor='name' className='mt-4'>Username</label>
